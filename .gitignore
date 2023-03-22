@@ -129,3 +129,6 @@ namecheap.tf
 !command/test-fixtures/**/*.tfstate
 !command/test-fixtures/**/.terraform/results/
 results/
+
+# Google Cloud Project credentials
+cicd_demo_gcp_creds.json

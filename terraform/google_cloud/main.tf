@@ -11,30 +11,40 @@ variable "port_number" {
 variable "docker_declaration" {
   type = string
   # Change the image: string to match the docker image you want to use
-  default = "spec:\n  containers:\n    - name: test-docker\n      image: 'ariv3ra/python-cicd-workshop'\n      stdin: false\n      tty: false\n  restartPolicy: Always\n"
+  default = "spec:\n  containers:\n    - name: test-docker\n      image: '040772/python-cicd-workshop'\n      stdin: false\n      tty: false\n  restartPolicy: Always\n"
 }
+
 
 variable "boot_image_name" {
   type = string
   default = "projects/cos-cloud/global/images/cos-stable-69-10895-62-0"
 }
 
-data "google_compute_network" "default" {
-  name = "default"
+
+######################
+locals {
+  project_number = "7396467160481603079"
+  project_id     = "quick-filament-378505"
 }
+########################
+data "google_compute_network" "default" {
+   name = "default"
+ }
+
+
+
 
 # Specify the provider (GCP, AWS, Azure)
 provider "google"{
   credentials = file("cicd_demo_gcp_creds.json")
   project = var.project_name
-  region = "us-east1-b"
+  region = "europe-west6"
 }
 
 resource "google_compute_firewall" "http-5000" {
   name    = "http-5000"
   network = data.google_compute_network.default.name
-
-  allow {
+    allow {
     protocol = "icmp"
   }
 
@@ -47,7 +57,7 @@ resource "google_compute_firewall" "http-5000" {
 resource "google_compute_instance" "default" {
   name = "default"
   machine_type = "g1-small"
-  zone = "us-east1-b"
+  zone = "europe-west6-a"
   tags =[
       "name","default"
   ]
